@@ -21,7 +21,13 @@ def pregunta_01():
     214
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        respuesta1=0
+        for fila in datos:
+            respuesta1=respuesta1+int(fila[1])
+    return respuesta1
 
 
 def pregunta_02():
@@ -39,7 +45,23 @@ def pregunta_02():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        valores_unicos=[]
+        valores=[]
+        for fila in datos:
+            valores.append(fila[0])
+            if fila[0] not in valores_unicos:
+                valores_unicos.append(fila[0])
+        valores_unicos.sort()
+
+        conteo=[]
+        for i in valores_unicos:
+            conteo.append(valores.count(i))
+
+        respuesta2=list(zip(valores_unicos,conteo))
+    return respuesta2
 
 
 def pregunta_03():
@@ -57,7 +79,26 @@ def pregunta_03():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+        valores_unicos=[]
+        for fila in datos:
+            if fila[0] not in valores_unicos:
+                valores_unicos.append(fila[0])
+        valores_unicos.sort()
+
+        conteo=[]
+        for i in valores_unicos:
+            total=0
+            for row in datos:
+                if i==row[0]:
+                    total=total+int(row[1])
+            conteo.append(total)
+
+        respuesta3=list(zip(valores_unicos,conteo))
+    return respuesta3
 
 
 def pregunta_04():
@@ -82,7 +123,26 @@ def pregunta_04():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+        mes=[]
+        for fecha in datos:
+            if fecha[2][5:7] not in mes:
+                mes.append(fecha[2][5:7])
+        mes.sort()
+        
+        conteo_mes=[]
+        for i in mes:
+            total=0
+            for row in datos:
+                if i==row[2][5:7]:
+                    total+=1
+            conteo_mes.append(total)
+
+        respuesta4=list(zip(mes,conteo_mes))
+    return respuesta4
 
 
 def pregunta_05():
@@ -100,7 +160,28 @@ def pregunta_05():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+        valores_unicos=[]
+        for fila in datos:
+            if fila[0] not in valores_unicos:
+                valores_unicos.append(fila[0])
+        valores_unicos.sort()
+
+        maximos=[]
+        minimos=[]
+        for i in valores_unicos:
+            valores=[]
+            for row in datos:
+                if i==row[0]:
+                    valores.append(row[1])
+            maximos.append(int(max(valores)))
+            minimos.append(int(min(valores)))
+
+        respuesta5=list(zip(valores_unicos,maximos,minimos))
+    return respuesta5
 
 
 def pregunta_06():
@@ -125,7 +206,27 @@ def pregunta_06():
     ]
 
     """
-    return
+    import csv
+    from collections import defaultdict
+
+    valores = defaultdict(list)
+
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file, delimiter="\t")
+
+        for fila in datos:
+            columna_cinco = fila[4]
+            letras = columna_cinco.split(',')
+            for conjunto in letras:
+                clave, valor = conjunto.split(':')
+                valores[clave].append(int(valor))
+
+        respuesta6 = []
+        for clave, valores_lista in valores.items():
+                respuesta6.append((clave, min(valores_lista), max(valores_lista)))
+        respuesta6.sort()
+        
+    return respuesta6 
 
 
 def pregunta_07():
@@ -149,7 +250,25 @@ def pregunta_07():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+
+        grupo_columna2 = {}
+        for fila in datos:
+            valor_columna1 = fila[0]
+            valor_columna2 = int(fila[1])
+            
+            if valor_columna2 not in grupo_columna2:
+                grupo_columna2[valor_columna2] = []
+            grupo_columna2[valor_columna2].append(valor_columna1)
+
+        orden =sorted(grupo_columna2)
+        respuesta7 = {x: grupo_columna2[x] for x in orden}
+        respuesta7 = [(key, value) for key, value in respuesta7.items()]
+
+    return respuesta7
 
 
 def pregunta_08():
@@ -174,7 +293,24 @@ def pregunta_08():
     ]
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+
+    diccionario = {}
+
+    for fila in datos:
+        valor = int(fila[1])
+        letras = set(fila[0]) 
+        if valor in diccionario:
+            diccionario[valor] = diccionario[valor].union(letras)
+        else:
+            diccionario[valor] = letras
+
+    respuesta8 = [(key, sorted(list(diccionario[key]))) for key in sorted(diccionario.keys())]
+
+    return respuesta8
 
 
 def pregunta_09():
@@ -197,7 +333,25 @@ def pregunta_09():
     }
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+
+        frecuencias = {}
+        for fila in datos:
+            columna_cinco = fila[4] 
+            letras = columna_cinco.split(',')
+            for conjunto in letras:
+                clave, valor = conjunto.split(':')
+                if clave in frecuencias:
+                    frecuencias[clave] += 1
+                else:
+                    frecuencias[clave] = 1
+            
+            orden =sorted(frecuencias)
+            respuesta9 = {x: frecuencias[x] for x in orden}
+    return respuesta9
 
 
 def pregunta_10():
@@ -218,7 +372,23 @@ def pregunta_10():
 
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+    tupla = []
+    for fila in datos:
+        letras = fila[0]
+        elementos_columna_4 = fila[3].split(',')
+        elementos_columna_5 = fila[4].split(',')
+
+        conteo_columna_4 = len(elementos_columna_4)
+        conteo_columna_5 = len(elementos_columna_5)
+
+        respuesta10 = (letras, conteo_columna_4, conteo_columna_5)
+
+        tupla.append(respuesta10)
+    return tupla
 
 
 def pregunta_11():
@@ -239,7 +409,25 @@ def pregunta_11():
 
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+
+    diccionario = {}
+
+    for fila in datos:
+        letra = fila[3].split(',')[0]
+        for letra in fila[3].split(','):
+            numero = int(fila[1])  
+            if letra in diccionario:
+                diccionario[letra] += numero
+            else:
+                diccionario[letra] = numero
+
+    respuesta11 = {key: diccionario[key] for key in sorted(diccionario)}
+
+    return respuesta11
 
 
 def pregunta_12():
@@ -257,4 +445,23 @@ def pregunta_12():
     }
 
     """
-    return
+    import csv
+    with open('data.csv', 'r') as file:
+        datos = csv.reader(file,delimiter="\t")
+        datos = list(datos)
+
+    diccionario = {}
+
+    for fila in datos:
+            clave = fila[0]  # Obtiene la clave de la columna 1
+            valores = fila[4].split(',')  # Divide los valores de la columna 5 por coma
+            for valor in valores:
+                parte_valor = valor.split(':')
+                if clave in diccionario:
+                    diccionario[clave] += int(parte_valor[1])  # Suma el valor numérico
+                else:
+                    diccionario[clave] = int(parte_valor[1])
+
+                orden =sorted(diccionario)
+                respuesta12 = {x: diccionario[x] for x in orden}
+    return respuesta12
