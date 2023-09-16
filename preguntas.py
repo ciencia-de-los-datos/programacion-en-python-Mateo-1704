@@ -225,7 +225,6 @@ def pregunta_06():
         for clave, valores_lista in valores.items():
                 respuesta6.append((clave, min(valores_lista), max(valores_lista)))
         respuesta6.sort()
-        
     return respuesta6 
 
 
@@ -267,7 +266,6 @@ def pregunta_07():
         orden =sorted(grupo_columna2)
         respuesta7 = {x: grupo_columna2[x] for x in orden}
         respuesta7 = [(key, value) for key, value in respuesta7.items()]
-
     return respuesta7
 
 
@@ -309,7 +307,6 @@ def pregunta_08():
             diccionario[valor] = letras
 
     respuesta8 = [(key, sorted(list(diccionario[key]))) for key in sorted(diccionario.keys())]
-
     return respuesta8
 
 
@@ -426,7 +423,6 @@ def pregunta_11():
                 diccionario[letra] = numero
 
     respuesta11 = {key: diccionario[key] for key in sorted(diccionario)}
-
     return respuesta11
 
 
